@@ -1,56 +1,36 @@
-package com.example.demo.domain;
+package com.example.demo.batch.dto;
 
-import jakarta.persistence.*;
+import com.example.demo.domain.Dummy;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 /**
- * 더미 데이터 엔티티
+ * batch update 하기전에 더티체킹으로 인한 update가 안되도록 dto 사용
  */
 @Getter
-@Entity
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
-public class Dummy {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class DummyDto {
     private Long id;
-
-    @Column(columnDefinition = "varchar(50)")
     private String one;
-
-    @Column(columnDefinition = "varchar(50)")
     private String two;
-
-    @Column(columnDefinition = "varchar(50)")
     private String three;
-
-    @Column(columnDefinition = "varchar(50)")
     private String four;
-
-    @Column(columnDefinition = "varchar(50)")
     private String five;
-
-    @Column(columnDefinition = "varchar(50)")
     private String six;
-
-    @Column(columnDefinition = "varchar(50)")
     private String seven;
 
-    // 더미 데이터 생성용 정적 팩토리 메서드
-    public static Dummy create() {
-        return Dummy.builder()
-            .one("one")
-            .two("two")
-            .three("three")
-            .four("four")
-            .five("five")
-            .six("six")
-            .seven("seven")
+    public static DummyDto from(Dummy dummy) {
+        return DummyDto.builder()
+            .id(dummy.getId())
+            .one(dummy.getOne())
+            .two(dummy.getTwo())
+            .three(dummy.getThree())
+            .four(dummy.getFour())
+            .five(dummy.getFive())
+            .six(dummy.getSix())
+            .seven(dummy.getSeven())
             .build();
     }
 

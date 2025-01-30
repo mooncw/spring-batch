@@ -29,34 +29,34 @@ public class InsertDummyJob {
     private final PlatformTransactionManager transactionManager;
 
     @Bean
-    public Job insertDummyFromNumJob(JobRepository jobRepository, Step readerProcessorWriterStep) {
-        return new JobBuilder("InsertDummyFromNumJob", jobRepository)
+    public Job insertDummyFromNumJob(JobRepository jobRepository, Step insertDummyFromNumStep) {
+        return new JobBuilder("insertDummyFromNumJob", jobRepository)
             .incrementer(new RunIdIncrementer())
-            .start(readerProcessorWriterStep)
+            .start(insertDummyFromNumStep)
             .build();
     }
 
     @Bean
     public Step insertDummyFromNumStep(JobRepository jobRepository,
-                                          ItemReader<Dummy> reader,
-                                          ItemWriter<Dummy> writer) {
-        return new StepBuilder("InsertDummyFromNumStep", jobRepository)
+                                          ItemReader<Dummy> insertDummyFromNumReader,
+                                          ItemWriter<Dummy> insertDummyFromNumWriter) {
+        return new StepBuilder("insertDummyFromNumJob", jobRepository)
             .<Dummy, Dummy>chunk(1000, transactionManager)
-            .reader(reader)
-            .writer(writer)
+            .reader(insertDummyFromNumReader)
+            .writer(insertDummyFromNumWriter)
             .build();
     }
 
     @Bean
     @StepScope
-    public ItemReader<Dummy> reader(
+    public ItemReader<Dummy> insertDummyFromNumReader(
         @Value("#{jobParameters['num']}") Integer num
     ) {
         return new DummyFromNumReader(num);
     }
 
     @Bean
-    public JdbcBatchItemWriter<Dummy> writer(DataSource dataSource) {
+    public JdbcBatchItemWriter<Dummy> insertDummyFromNumWriter(DataSource dataSource) {
         return new JdbcBatchItemWriterBuilder<Dummy>()
             .dataSource(dataSource)
             .sql("INSERT INTO dummy (one, two, three, four, five, six, seven) " +
