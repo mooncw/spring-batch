@@ -43,4 +43,8 @@ public class DummyDto {
         this.six = Character.isLowerCase(this.six.charAt(0)) ? this.six.toUpperCase() : this.six.toLowerCase();
         this.seven = Character.isLowerCase(this.seven.charAt(0)) ? this.seven.toUpperCase() : this.seven.toLowerCase();
     }
+
+    public boolean isUpper() {
+        return Character.isUpperCase(this.one.charAt(0));
+    }
 }
